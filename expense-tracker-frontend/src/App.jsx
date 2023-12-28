@@ -8,7 +8,7 @@ import UserRegister from "./pages/UserRegister";
 import UserLogin from "./pages/UserLogin";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import CashBook from "./pages/CashBook";
+import Dashboard from "./pages/Dashboard";
 
 axios.defaults.baseURL = REST_API_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -22,7 +22,7 @@ function App() {
           <Route path="/" element={<IndexPage />} />
           <Route path="/signup" element={<UserRegister />} />
           <Route path="/login" element={<UserLogin />} />
-          <Route path="/dashboard" element={<CashBook />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </UserContextProvider>

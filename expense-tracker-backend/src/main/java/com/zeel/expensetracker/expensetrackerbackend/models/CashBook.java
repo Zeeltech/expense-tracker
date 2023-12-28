@@ -1,10 +1,8 @@
 package com.zeel.expensetracker.expensetrackerbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -20,10 +18,14 @@ public class CashBook {
     @Column(name = "cashbook_id")
     private Integer cashBookId;
 
-    @OneToMany(mappedBy = "cashBook", cascade = CascadeType.ALL)
+    private String name;
+
+    @OneToMany(mappedBy = "cashBook", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Transaction> transactions;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ToString.Exclude
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_id")
     private User user;
 }

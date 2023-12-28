@@ -1,13 +1,18 @@
-package com.zeel.expensetracker.expensetrackerbackend.auth;
+package com.zeel.expensetracker.expensetrackerbackend.auth.service;
 
+import com.zeel.expensetracker.expensetrackerbackend.auth.payload.authentication.AuthenticationResponse;
+import com.zeel.expensetracker.expensetrackerbackend.auth.payload.authentication.LoginRequest;
+import com.zeel.expensetracker.expensetrackerbackend.auth.payload.authentication.RegisterRequest;
 import com.zeel.expensetracker.expensetrackerbackend.config.JwtService;
+import com.zeel.expensetracker.expensetrackerbackend.exception.UserServiceException;
 import com.zeel.expensetracker.expensetrackerbackend.models.Role;
 import com.zeel.expensetracker.expensetrackerbackend.models.User;
 import com.zeel.expensetracker.expensetrackerbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +26,11 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
 
-    public ResponseEntity<String> register(RegisterRequest request) {
+    public String register(RegisterRequest request) {
         // need to check if user already exists or not
         // Built the user object
         if (userRepository.existsByEmail(request.getEmail())) {
-            return new ResponseEntity<>("Email already exists", HttpStatus.BAD_REQUEST);
+            throw new UserServiceException("User already exists");
         }
         var user =
                 User.builder().firstName(request.getFirstName()).lastName(request.getLastName()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).role(Role.USER).build();
@@ -38,6 +43,20 @@ public class AuthenticationService {
 
         // return that token
         AuthenticationResponse authenticationResponse = AuthenticationResponse.builder().token(jwtToken).build();
-        return new ResponseEntity<String>("User Registered successfully with token : " + authenticationResponse.getToken(), HttpStatus.OK);
+        return authenticationResponse.getToken();
+    }
+
+    public String login(LoginRequest loginRequest) {
+        if (userRepository.existsByEmail(loginRequest.getEmail()) == null) {
+            throw new UserServiceException("User does not exists");
+        }
+        User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
+
+        Authentication authentication =
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
+                        loginRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return jwtService.generateToken(user);
     }
 }
