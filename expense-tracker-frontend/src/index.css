@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Poppins", sans-serif;
+  /* font-family: "Raleway", sans-serif; */
+  /* font-family: 'Rubik', sans-serif; */
+}
+a {
+  text-decoration: none;
+}
+
+.give_height {
+  @apply min-h-[calc(100vh-64px)];
+}
+
+
+
+.green-btn {
+  @apply no-underline text-sm font-semibold py-2 px-4 text-my_font2 bg-my_light_green rounded-md hover:bg-my_dark_green hover:text-my_font1 duration-200;
+}
+
+.white-btn {
+  @apply no-underline text-my_font2  text-sm font-semibold py-2 px-4 bg-my_bg_white rounded-md hover:bg-my_bg_silver duration-200;
+}
