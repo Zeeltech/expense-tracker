@@ -12,7 +12,7 @@ export const authenticateEmployee = () => {
 
 export const loginUser = async ({ email, password }) => {
   return await axios.post(
-    REST_API_BASE_URL + "/auth/logi",
+    REST_API_BASE_URL + "/auth/login",
     {
       email,
       password,
