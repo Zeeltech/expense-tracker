@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { UserContext } from "../service/UserContext";
 import { Navigate } from "react-router-dom";
+import CashBooks from "../components/CashBooks";
 
-const CashBook = () => {
+const Dashboard = () => {
   const { user, setUser } = useContext(UserContext);
 
   if (!user) {
@@ -12,7 +13,7 @@ const CashBook = () => {
     <div className="give_height bg-my_bg flex">
       <div className="w-1/2 bg-my_box">
         <div className="text-my_light_green font-semibold text-2xl text-center mt-4">
-          Cashbook
+          <CashBooks />
         </div>
       </div>
       <div></div>
@@ -20,4 +21,4 @@ const CashBook = () => {
   );
 };
 
-export default CashBook;
+export default Dashboard;

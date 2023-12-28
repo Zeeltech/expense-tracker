@@ -36,6 +36,7 @@ const UserRegister = () => {
       registerUser({ email, firstName, lastName, password }).then(
         (response) => {
           console.log(response.data);
+          setLoading(false);
         }
       ).catch((error) => {
         toast.error("User already exists");

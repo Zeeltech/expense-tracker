@@ -31,9 +31,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_cashbook_id")
-    private CashBook cashBook;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<CashBook> cashBooks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,4 +1,4 @@
-package com.zeel.expensetracker.expensetrackerbackend.auth;
+package com.zeel.expensetracker.expensetrackerbackend.auth.payload.cashbook;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthenticationRequest {
-    private String email;
-    String password;
+public class CashBookRequest {
+    private String name;
 }

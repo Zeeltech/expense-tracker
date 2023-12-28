@@ -1,5 +1,6 @@
 package com.zeel.expensetracker.expensetrackerbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private PaymentMode paymentMode;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_cashbook_id")
     private CashBook cashBook;
